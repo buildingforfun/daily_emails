@@ -28,14 +28,23 @@ def send_email(from_address, password, to_address):
     # URLs from csv file
     csv_urls_df = pd.read_csv('urls.csv')
     csv_url_random = []
-    for index, csv_url in enumerate(csv_urls_df.iloc[:, 0]):
-        print(csv_url)
-        second_column_value = csv_urls_df.iloc[index, 1]
-        if pd.isna(second_column_value):
-            second_column_value = ''
-        print(second_column_value)
-        url = return_random_link(csv_url, second_column_value)
-        csv_url_random.append(url)
+    try:
+        for index, csv_url in enumerate(csv_urls_df.iloc[:, 0]):
+            print(f"Processing row {index}:")
+            print(f"CSV URL: {csv_url}")
+            
+            try:
+                url = return_random_link(csv_url)
+                print(f"Random URL: {url}")
+                csv_url_random.append(url)
+            except Exception as e:
+                print(f"Error processing row {index}: {str(e)}")
+            
+            print("---")  # Separator between rows
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+
+
 
     # Create email body2
     body = "<html><body><p>Read these posts:</p><ul>"

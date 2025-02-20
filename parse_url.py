@@ -3,7 +3,7 @@ import random
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 
-def return_random_link(url, sub_folder_name):
+def return_random_link(url):
     """
     Return random url link contained in url given
 
@@ -23,8 +23,7 @@ def return_random_link(url, sub_folder_name):
     # Get all the links and chose one randomly
     link_list = []
     for link in links:
-        if sub_folder_name in link:
-            link_list.append(link)
+        link_list.append(link)
     link_chosen = random.choice(link_list)
     
     return link_chosen
