@@ -5,11 +5,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import pandas as pd
 
-# Local imports
-from parse_url import return_random_link
+# Local imports
+from kindle_clipper import  kindle_clipper
+from parse_url import  return_random_link
 
-
-def send_email(from_address, password, to_address):
+def send_email(from_address, password, to_address, clips_path):
     """
     Sends a email from a google email addresses
 
@@ -50,6 +50,7 @@ def send_email(from_address, password, to_address):
     body = "<html><body><p>Read these posts:</p><ul>"
     for url in csv_url_random:
         body += f"<li><a href='{url}'>{url}</a></li>"  # Create a list item for each URL
+    body += f"<li><a>{str(kindle_clipper(clips_path))}</a></li>"
     body += "</ul></body></html>"
 
     # Add bodies to email
@@ -72,10 +73,12 @@ parser = argparse.ArgumentParser(description='Send emails')
 parser.add_argument('--from-address', required = True, help='From email addres')
 parser.add_argument('--password', required = True, help='Email address authentication password')
 parser.add_argument('--to-address', required = True, help='To email addres')
+parser.add_argument('--clips', required = True, help='Path to kindle clippings text file')
 args = parser.parse_args()
 
 sender_email = args.from_address
 sender_password = args.password
 recipient_email = args.to_address
+clips_path=args.clips
 
-send_email(sender_email, sender_password, recipient_email)
+send_email(sender_email, sender_password, recipient_email, clips_path)
